@@ -1,0 +1,7 @@
+/ConverTool
+
+*.ilk
+*.pdb
+*.pch
+
+*.aps
