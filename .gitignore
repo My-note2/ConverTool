@@ -1,5 +1,7 @@
 /ConverTool
 
+*.iobj
+*.ipdb
 *.ilk
 *.pdb
 *.pch

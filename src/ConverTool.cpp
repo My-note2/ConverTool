@@ -6,6 +6,8 @@
 #include "ConverTool.h"
 #include "ConverToolDlg.h"
 
+#include "CTFile.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -58,6 +60,29 @@ BOOL CConverToolApp::InitInstance()
 	// 激活“Windows Native”视觉管理器，以便在 MFC 控件中启用主题
 	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
 
+	// 拼接应用程序路径+csv文件字符串
+	TCHAR ExecutableFilePath[MAX_PATH] = { 0 };
+
+	CString tcsAppDir = _T("");
+	// C:\Users\86185\Documents\_code\repositories\collect\ConverTool\..\bin\Debug\ConverTool.exe
+	if (!::GetModuleFileName(NULL, ExecutableFilePath, MAX_PATH))
+	{
+
+		return FALSE;
+	}
+	else
+	{
+		CString tcsFilePath = ExecutableFilePath;
+		int nPos = tcsFilePath.ReverseFind('\\');
+		if (nPos != -1)
+		{
+			tcsFilePath = tcsFilePath.Left(nPos);
+			tcsAppDir.Format(_T("%s\\饱和汞蒸气温度对照表.csv"), tcsFilePath);
+		}
+	}
+	// 加载csv文件
+	CTFile ctFile(tcsAppDir);
+	ctFile.LoadTable();
 	// 标准初始化
 	// 如果未使用这些功能并希望减小
 	// 最终可执行文件的大小，则应移除下列
